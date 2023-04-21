@@ -18,8 +18,8 @@ type Product struct {
 }
 
 func (p *Product) FromJSON(r io.Reader) error {
-	e := json.NewDecoder(r)
-	return e.Decode(e)
+	d := json.NewDecoder(r)
+	return d.Decode(p)
 }
 
 type Products []*Product

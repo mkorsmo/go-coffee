@@ -30,6 +30,8 @@ func (p *Products) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 }
 
 func (p *Products) getProducts(rw http.ResponseWriter, r *http.Request) {
+	p.l.Println("List all products")
+
 	lp := data.GetProducts()
 	err := lp.ToJSON(rw)
 	if err != nil {
@@ -39,4 +41,12 @@ func (p *Products) getProducts(rw http.ResponseWriter, r *http.Request) {
 
 func (p *Products) addProduct(rw http.ResponseWriter, r *http.Request) {
 	p.l.Println("Post addProduct")
+
+	prod := &data.Product{}
+	err := prod.FromJSON(r.Body)
+	if err != nil {
+		http.Error(rw, "Unable to decode JSON", http.StatusBadRequest)
+	}
+
+	p.l.Printf("Prod: %#v", prod)
 }
